@@ -20,11 +20,10 @@ export const setProject = (name: string) => {
     };
 };
 
-export const setTodo = (data: todoItemType, name: string, id: any) => {
+export const setTodo = (data: todoItemType, id: string) => {
     return {
         type: SET_TODO,
         data,
-        name,
         id
     };
 };
@@ -42,7 +41,6 @@ export const deleteProject = (id: string) => {
     };
 };
 export const setIndexTodo = (data: todoItemType[], id: string) => {
-    console.log(1)
     return {
         type: SET_INDEX_TODO,
         data, id
@@ -55,49 +53,59 @@ const initialState: IInitialState = {
         {
             name: '11',
             id: '1',
-            todoDevelop: [
+            boards: [
                 {
-                    name: 'develop2 0',
-                    done: 'develop',
-                    time: '123',
-                    id: 'develop2',
-                    text: '212',
-                    timeEnd: '2121'
-                },
-                {
-                    name: 'develop1 1',
-                    done: 'develop',
-                    time: '123',
-                    id: 'develop1',
-                    text: '212',
-                    timeEnd: '2121'
-                }
-            ],
-            todoQueue: [
-                {
-                    name: 'queue2 5',
-                    done: 'queue',
-                    time: '123',
-                    id: 'queue2',
-                    text: '212',
-                    timeEnd: '2121'
+                    title: 'todoQueue',
+                    id: 1,
+                    todo: [{
+                        name: 'queue2 5',
+                        done: 'queue',
+                        time: '123',
+                        id: 'queue2',
+                        text: '212',
+                        timeEnd: '2121'
+                    },
+                        {
+                            name: 'queue1 3',
+                            done: 'queue',
+                            time: '123',
+                            id: 'queue1',
+                            text: '212',
+                            timeEnd: '2121'
+                        }]
                 }, {
-                    name: 'queue1 3',
-                    done: 'queue',
-                    time: '123',
-                    id: 'queue1',
-                    text: '212',
-                    timeEnd: '2121'
-                }],
-            todoDone: [
-                {
-                    name: 'done2 4',
-                    done: 'done',
-                    time: '123',
-                    id: 'done2',
-                    text: '212',
-                    timeEnd: '2121'
-                }],
+                    title: 'todoDevelop',
+                    id: 2,
+                    todo: [{
+                        name: 'develop2 0',
+                        done: 'develop',
+                        time: '123',
+                        id: 'develop2',
+                        text: '212',
+                        timeEnd: '2121'
+                    },
+                        {
+                            name: 'develop1 1',
+                            done: 'develop',
+                            time: '123',
+                            id: 'develop1',
+                            text: '212',
+                            timeEnd: '2121'
+                        }]
+                }, {
+                    title: 'todoDone',
+                    id: 3,
+                    todo: [{
+                        name: 'done2 4',
+                        done: 'done',
+                        time: '123',
+                        id: 'done2',
+                        text: '212',
+                        timeEnd: '2121'
+                    }]
+                }
+            ]
+
         }],
 
 
@@ -119,13 +127,13 @@ const TodoReducer = (
             return {
                 ...state,
                 project: state.project.map((el: any) => {
-                    console.log(action)
+
                     if (el.id === action.id) {
+
                         return {
                             ...el,
-                            [action.name]: action.data
+                            boards: action.data
                         }
-
                     } else return el
                 })
 

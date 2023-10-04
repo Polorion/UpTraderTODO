@@ -12,35 +12,19 @@ const InfoProject: React.FC = (props: AppStateType) => {
     const {id: currentProjectId} = useParams()
     const dispatch = useDispatch()
     const currentTodo = props.todos.find((el: ProjectItemType) => String(el.id) === String(currentProjectId))
-    const todoQueue = ([...currentTodo.todoQueue])
-    const todoDevelop = ([...currentTodo.todoDevelop])
-    const todoDone = ([...currentTodo.todoDone])
+    console.log(currentTodo, 11111)
     const [currentTodoItem, setCurrentTodoItem] = useState('')
     const [currentBoard, setCurrentBoard] = useState<any>()
     const setNewOrderTodo = (data: any) => {
-        dispatch(setTodo(data.todo, data.title, currentTodo.id))
+        dispatch(setTodo(data, currentTodo.id))
     }
-    const [columns, setColumns] = useState([
-        {
-            title: 'todoQueue',
-            id: 1,
-            todo: todoQueue
-        }, {
-            title: 'todoDevelop',
-            id: 2,
-            todo: todoDevelop
-        }, {
-            title: 'todoDone',
-            id: 3,
-            todo: todoDone
-        }
-    ])
+    const [columns, setColumns] = useState(currentTodo.boards)
 
 
     return (
         <div className={S.body}>
             {currentProjectId && <div className={S.columnsBody}>
-                {columns.map(board => <ColumnDone
+                {columns.map((board: any) => <ColumnDone
                     key={board.id}
                     board={board}
                     setCurrentTodoItem={setCurrentTodoItem}
@@ -50,6 +34,7 @@ const InfoProject: React.FC = (props: AppStateType) => {
                     currentTodo={currentTodo}
                     setColumns={setColumns}
                     columns={columns}
+                    setNewOrderTodo={setNewOrderTodo}
                 />)}
 
             </div>}

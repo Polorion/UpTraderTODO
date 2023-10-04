@@ -11,6 +11,7 @@ interface IColumnDone {
     currentTodo: any
     setColumns: any
     columns: any
+    setNewOrderTodo: any
 
 }
 
@@ -52,6 +53,7 @@ export const ColumnDone = (props: IColumnDone) => {
             }
             return d
         }))
+        props.setNewOrderTodo(props.columns)
 
 
     }
@@ -69,6 +71,7 @@ export const ColumnDone = (props: IColumnDone) => {
             }
             return d
         }))
+        props.setNewOrderTodo(props.columns)
     }
 
     return (<div key={props.board.id} className={S.board}
