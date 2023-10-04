@@ -10,7 +10,7 @@ const SET_PROJECT = "SET_PROJECT";
 const EDIT_PROJECT = "EDIT_PROJECT";
 const DELETE_PROJECT = "DELETE_PROJECT";
 const SET_TODO = "SET_TODO";
-const SET_INDEX_TODO = "SET_INDEX_TODO";
+const ADD_NEW_TODO = 'ADD_NEW_TODO'
 
 
 export const setProject = (name: string) => {
@@ -40,10 +40,11 @@ export const deleteProject = (id: string) => {
         id
     };
 };
-export const setIndexTodo = (data: todoItemType[], id: string) => {
+export const addNewTodo = (data: todoItemType, id: string) => {
     return {
-        type: SET_INDEX_TODO,
-        data, id
+        type: ADD_NEW_TODO,
+        data,
+        id
     };
 };
 
@@ -117,6 +118,28 @@ const TodoReducer = (
 ) => {
     switch (action.type) {
 
+        case ADD_NEW_TODO:
+            return {
+                ...state,
+                project: [...state.project.map(el => {
+                    return {
+                        ...el,
+                        todo: el.todo.map(e => {
+                            if (String(e.id) === action.id) {
+
+                                return {
+                                    ...e,
+                                    todo: [...e.todo, action.data]
+                                }
+                            } else {
+                                return e
+                            }
+
+                        })
+                    }
+
+                })]
+            };
         case SET_PROJECT:
             return {
                 ...state,
@@ -138,18 +161,7 @@ const TodoReducer = (
                 })
 
             };
-        case SET_INDEX_TODO:
-            return {
-                ...state,
-                project: state.project.map(project => {
-                    if (project.id === action.id) {
-                        return {...project, todo: action.data}
-                    } else {
-                        return project
-                    }
 
-                }),
-            };
         case DELETE_PROJECT:
             return {
                 ...state,

@@ -5,4 +5,5 @@ export type todoItemType = {
     id: string,
     text: string,
     timeEnd: string,
+    refFile?: string
 }
