@@ -5,26 +5,25 @@ import {AppStateType} from "../../store/Store";
 import {connect, useDispatch} from "react-redux";
 import {setIndexTodo, setTodo} from "../../store/TodoReducer";
 import {useParams} from "react-router-dom";
-import {ProjectItemType} from "../../types/ProjectItemType";
+import {ProjectItemType, ProjectTodo} from "../../types/ProjectItemType";
 import {ColumnDone} from "./columnDone/ColumnDone";
+import {todoItemType} from "../../types/todoItemType";
 
 const InfoProject: React.FC = (props: AppStateType) => {
     const {id: currentProjectId} = useParams()
     const dispatch = useDispatch()
     const currentTodo = props.todos.find((el: ProjectItemType) => String(el.id) === String(currentProjectId))
-    console.log(currentTodo, 11111)
-    const [currentTodoItem, setCurrentTodoItem] = useState('')
-    const [currentBoard, setCurrentBoard] = useState<any>()
-    const setNewOrderTodo = (data: any) => {
+    const [currentTodoItem, setCurrentTodoItem] = useState<todoItemType>()
+    const [currentBoard, setCurrentBoard] = useState<ProjectTodo>()
+    const setNewOrderTodo = (data: ProjectTodo[]) => {
         dispatch(setTodo(data, currentTodo.id))
     }
-    const [columns, setColumns] = useState(currentTodo.boards)
-
+    const [columns, setColumns] = useState(currentTodo.todo)
 
     return (
         <div className={S.body}>
             {currentProjectId && <div className={S.columnsBody}>
-                {columns.map((board: any) => <ColumnDone
+                {columns.map((board: ProjectTodo) => <ColumnDone
                     key={board.id}
                     board={board}
                     setCurrentTodoItem={setCurrentTodoItem}

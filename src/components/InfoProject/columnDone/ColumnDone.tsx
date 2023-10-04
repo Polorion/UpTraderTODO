@@ -1,19 +1,22 @@
 import * as React from 'react';
 import S from './ColumnDone.module.scss'
 import {doneTransfer} from "../../../utils/doneTransfer";
+import {todoItemType} from "../../../types/todoItemType";
+import {ProjectItemType, ProjectTodo} from "../../../types/ProjectItemType";
 
 interface IColumnDone {
-    board: any
-    setCurrentTodoItem: any
-    setCurrentBoard: any
+    board: ProjectTodo
+    setCurrentTodoItem: (item: todoItemType) => void
+    setCurrentBoard: (board: ProjectTodo) => void
     currentBoard: any
     currentTodoItem: any
-    currentTodo: any
-    setColumns: any
+    currentTodo: ProjectItemType
+    setColumns: (board: ProjectTodo) => void
     columns: any
     setNewOrderTodo: any
 
 }
+
 
 export const ColumnDone = (props: IColumnDone) => {
     const onDragOverHandler = (e: any) => {
@@ -27,16 +30,16 @@ export const ColumnDone = (props: IColumnDone) => {
         e.target.style.boxShadow = 'none'
     }
 
-    const onDragStartHandler = (e: any, board: any, item: any) => {
+    const onDragStartHandler = (e: any, board: ProjectTodo, item: todoItemType) => {
         props.setCurrentTodoItem(item)
         props.setCurrentBoard(board)
     }
 
-    const onDragEndHandler = (e: any, id: any) => {
+    const onDragEndHandler = (e: any) => {
         e.target.style.boxShadow = 'none'
     }
 
-    const onDropHandler = (e: any, board: any, item: any) => {
+    const onDropHandler = (e: any, board: ProjectTodo, item: todoItemType) => {
         e.stopPropagation()
         e.target.style.boxShadow = 'none'
         const currentIndex = props.currentBoard.todo.indexOf(props.currentTodoItem)
@@ -44,32 +47,32 @@ export const ColumnDone = (props: IColumnDone) => {
         const dropIndex = board.todo.indexOf(item)
         board.todo.splice(dropIndex + 1, 0, props.currentTodoItem)
 
-        props.setColumns(props.columns.map((d: any) => {
-            if (d.id === board.id) {
+        props.setColumns(props.columns.map((column: any) => {
+            if (column.id === board.id) {
                 return board
             }
-            if (d.id === props.currentBoard.id) {
+            if (column.id === props.currentBoard.id) {
                 return props.currentBoard
             }
-            return d
+            return column
         }))
         props.setNewOrderTodo(props.columns)
 
 
     }
 
-    const onDropHandlerBorder = (e: React.DragEvent<HTMLDivElement>, board: any) => {
+    const onDropHandlerBorder = (e: React.DragEvent<HTMLDivElement>, board: ProjectTodo) => {
         board.todo.push(props.currentTodoItem)
         const currentIndex = props.currentBoard.todo.indexOf(props.currentTodoItem)
         props.currentBoard.todo.splice(currentIndex, 1)
-        props.setColumns(props.columns.map((d: any) => {
-            if (d.id === board.id) {
+        props.setColumns(props.columns.map((column: any) => {
+            if (column.id === board.id) {
                 return board
             }
-            if (d.id === props.currentBoard.id) {
+            if (column.id === props.currentBoard.id) {
                 return props.currentBoard
             }
-            return d
+            return column
         }))
         props.setNewOrderTodo(props.columns)
     }
@@ -85,7 +88,7 @@ export const ColumnDone = (props: IColumnDone) => {
 
         >
             <h2 className={S.boardTitle}>{doneTransfer(props.board.title)}</h2>
-            {props.board.todo.map((item: any, id: any) => {
+            {props.board.todo.map((item, id) => {
                 return <div className={`${id % 2 ? S.gray : S.black} ${S.item} `}
                             key={item.id}
                             draggable={true}
@@ -99,7 +102,7 @@ export const ColumnDone = (props: IColumnDone) => {
                                 onDragStartHandler(e, props.board, item)
                             }}
                             onDragEnd={(e) => {
-                                onDragEndHandler(e, item)
+                                onDragEndHandler(e)
                             }}
                             onDrop={(e) => {
                                 onDropHandler(e, props.board, item)

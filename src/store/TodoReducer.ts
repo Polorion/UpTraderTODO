@@ -1,4 +1,4 @@
-import {ProjectItemType} from "../types/ProjectItemType";
+import {ProjectItemType, ProjectTodo} from "../types/ProjectItemType";
 import GeneratorRandomString from "../utils/generatorRandomString";
 import {todoItemType} from "../types/todoItemType";
 
@@ -20,7 +20,7 @@ export const setProject = (name: string) => {
     };
 };
 
-export const setTodo = (data: todoItemType, id: string) => {
+export const setTodo = (data: ProjectTodo[], id: string) => {
     return {
         type: SET_TODO,
         data,
@@ -53,7 +53,7 @@ const initialState: IInitialState = {
         {
             name: '11',
             id: '1',
-            boards: [
+            todo: [
                 {
                     title: 'todoQueue',
                     id: 1,
