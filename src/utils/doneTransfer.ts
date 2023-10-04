@@ -1,11 +1,11 @@
 export const doneTransfer = (done: string) => {
     switch (done) {
-        case'готово':
-            return 'done'
-        case'в ожидании':
-            return 'queue'
-        case'в разработке':
-            return 'develop'
+        case'todoDone':
+            return 'готово'
+        case'todoQueue':
+            return 'в ожидании'
+        case'todoDevelop':
+            return 'в разработке'
         default:
             return 'queue';
     }

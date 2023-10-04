@@ -3,5 +3,7 @@ import {todoItemType} from "./todoItemType";
 export type ProjectItemType = {
     name: string
     id: string
-    todo: todoItemType[]
+    todoDevelop: todoItemType[]
+    todoQueue: todoItemType[]
+    todoDone: todoItemType[]
 }
