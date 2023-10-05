@@ -5,9 +5,11 @@ import {useState} from "react";
 import 'moment/locale/ru';
 import {EditTodo} from "./editTodo/EditTodo";
 import {todoItemType} from "../../../../types/todoItemType";
+import {MiniTodoContainer} from "./miniTodo/MiniTodoContainer";
 
 interface ITodoItem {
     item: todoItemType
+    board: string
 }
 
 export const TodoItem = (props: ITodoItem) => {
@@ -25,9 +27,12 @@ export const TodoItem = (props: ITodoItem) => {
 
                 <div className={S.text}>{props.item.text.length > 1 && <span>описание: </span>}{props.item.text}</div>
             </div>
+            <div className={S.miniTodo}><MiniTodoContainer board={props.board} item={props.item}/></div>
             <div className={S.data}>
-                <p className={S.showDate} onClick={() => {
-                    setIsHiddeDate(prevState => !prevState)
+                <p className={S.showDate} onMouseEnter={() => {
+                    setIsHiddeDate(true)
+                }} onMouseLeave={() => {
+                    setIsHiddeDate(false)
                 }}>посмотреть даты</p>
                 <div className={`${S.dataHidden} ${isHiddeDate && S.active}`}>
                     <div className={S.createTime}>дата
@@ -40,4 +45,5 @@ export const TodoItem = (props: ITodoItem) => {
         </div>
     );
 };
+
 

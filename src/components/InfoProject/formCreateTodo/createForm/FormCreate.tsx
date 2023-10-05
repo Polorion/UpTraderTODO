@@ -14,6 +14,7 @@ interface IFormCreate {
     item?: todoItemType,
     create: boolean
     setEditTodo: (idProject: string, data: todoItemType, idTodo: string, nameBoard: string) => any
+    setIsModal: (type: boolean) => void
 }
 
 export const FormCreate = (props: IFormCreate) => {
@@ -35,6 +36,7 @@ export const FormCreate = (props: IFormCreate) => {
                 done: 'todoQueue',
                 time: moment().unix(),
                 id: GeneratorRandomString(),
+                miniTodo: []
 
             }
             refName.current && refName.current.value === '' || currentProjectId && dispatch(addNewTodo(newTodo, currentProjectId))
@@ -46,7 +48,11 @@ export const FormCreate = (props: IFormCreate) => {
                 timeEnd: moment(refDataEnd.current ? refDataEnd.current.value : 0).unix(),
                 refFile: refFile.current ? refFile.current.value : '',
             }
-            dispatch(setEditTodo(String(currentProjectId), editTodo, String(props.item?.id), String(props.item?.done)))
+            refName.current && refName.current.value === '' || currentProjectId && dispatch(setEditTodo(String(currentProjectId), editTodo, String(props.item?.id), String(props.item?.done)))
+        }
+        if (refName.current && refName.current.value.length > 1) {
+
+            props.setIsModal(false)
         }
     }
     useEffect(() => {

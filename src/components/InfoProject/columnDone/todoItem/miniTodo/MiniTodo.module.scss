@@ -1,0 +1,29 @@
+.body {
+  padding: 10px;
+  min-height: 300px;
+  min-width: 500px;
+  background-color: #fff;
+}
+
+.done {
+  height: 20px;
+  border-radius: 100px;
+  transition: all 0.5s ease;
+
+  &.red {
+
+    background-color: red;
+  }
+
+  &.green {
+    background-color: green;
+  }
+}
+
+.miniTodoBody {
+  display: flex;
+
+  div {
+    flex: 0 0 30%
+  }
+}

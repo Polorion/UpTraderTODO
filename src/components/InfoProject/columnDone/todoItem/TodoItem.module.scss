@@ -36,7 +36,7 @@
 }
 
 .name {
-  padding-top: 15px;
+  padding-top: 25px;
   max-width: 100px;
   width: 100%;
   overflow-wrap: break-word;
@@ -47,4 +47,11 @@
   max-width: 100px;
   width: 100%;
   overflow-wrap: break-word
+}
+
+.miniTodo {
+  position: absolute;
+
+  bottom: 0;
+  right: 0;
 }

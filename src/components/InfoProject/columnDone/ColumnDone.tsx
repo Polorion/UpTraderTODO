@@ -111,7 +111,7 @@ export const ColumnDone = (props: IColumnDone) => {
                             }}
                             onDrop={(e) => {
                                 onDropHandler(e, props.board, item)
-                            }}><TodoItem item={item}/>
+                            }}><TodoItem board={props.board.title} item={item}/>
                 </div>
             })}
         </div>

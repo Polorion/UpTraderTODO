@@ -1,3 +1,9 @@
+export type miniTodoType = {
+    name: string | undefined,
+    done: boolean
+    id: string
+}
+
 export type todoItemType = {
     name: string,
     done?: string,
@@ -5,5 +11,6 @@ export type todoItemType = {
     id?: string,
     text: string,
     timeEnd?: string | number,
-    refFile?: string
+    refFile?: string,
+    miniTodo?: miniTodoType[]
 }

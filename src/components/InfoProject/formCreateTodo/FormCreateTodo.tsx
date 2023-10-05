@@ -14,7 +14,7 @@ export const FormCreateTodo = () => {
         <div className={S.body}>
             <button onClick={openModal}>createTodo</button>
             {isModal && <Portal exitModal={setIsModal}>
-                <FormCreateContainer create={true}/>
+                <FormCreateContainer setIsModal={setIsModal} create={true}/>
             </Portal>
 
             }
