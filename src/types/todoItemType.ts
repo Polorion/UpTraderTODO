@@ -1,9 +1,9 @@
 export type todoItemType = {
     name: string,
-    done: string,
-    time: string,
-    id: string,
+    done?: string,
+    time?: string | {},
+    id?: string,
     text: string,
-    timeEnd: string,
+    timeEnd?: string | number,
     refFile?: string
 }

@@ -15,7 +15,7 @@ export const Portal = (props: any) => {
             <div onClick={(e) => {
                 e.stopPropagation()
             }}>
-                <props.element/>
+                {props.children}
             </div>
         </div>,
         node

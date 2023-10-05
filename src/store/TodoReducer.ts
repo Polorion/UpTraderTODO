@@ -11,12 +11,22 @@ const EDIT_PROJECT = "EDIT_PROJECT";
 const DELETE_PROJECT = "DELETE_PROJECT";
 const SET_TODO = "SET_TODO";
 const ADD_NEW_TODO = 'ADD_NEW_TODO'
+const EDIT_TODO = 'EDIT_TODO'
 
 
 export const setProject = (name: string) => {
     return {
         type: SET_PROJECT,
         name,
+    };
+};
+export const setEditTodo = (idProject: string, data: todoItemType, idTodo: string, nameBoard: string) => {
+    return {
+        type: EDIT_TODO,
+        data,
+        idProject,
+        idTodo,
+        nameBoard
     };
 };
 
@@ -59,51 +69,23 @@ const initialState: IInitialState = {
                     title: 'todoQueue',
                     id: 1,
                     todo: [{
-                        name: 'queue2 5',
-                        done: 'queue',
-                        time: '123',
-                        id: 'queue2',
-                        text: '212',
-                        timeEnd: '2121'
+                        name: "fds",
+                        text: "",
+                        timeEnd: '',
+                        refFile: "",
+                        done: "todoQueue",
+                        time: 1696508028,
+                        id: "myxulmuvorp",
                     },
-                        {
-                            name: 'queue1 3',
-                            done: 'queue',
-                            time: '123',
-                            id: 'queue1',
-                            text: '212',
-                            timeEnd: '2121'
-                        }]
+                    ]
                 }, {
                     title: 'todoDevelop',
                     id: 2,
-                    todo: [{
-                        name: 'develop2 0',
-                        done: 'develop',
-                        time: '123',
-                        id: 'develop2',
-                        text: '212',
-                        timeEnd: '2121'
-                    },
-                        {
-                            name: 'develop1 1',
-                            done: 'develop',
-                            time: '123',
-                            id: 'develop1',
-                            text: '212',
-                            timeEnd: '2121'
-                        }]
+                    todo: []
                 }, {
                     title: 'todoDone',
                     id: 3,
-                    todo: [{
-                        name: 'done2 4',
-                        done: 'done',
-                        time: '123',
-                        id: 'done2',
-                        text: '212',
-                        timeEnd: '2121'
-                    }]
+                    todo: []
                 }
             ]
 
@@ -144,6 +126,36 @@ const TodoReducer = (
             return {
                 ...state,
                 project: [...state.project, {name: action.name, id: GeneratorRandomString(), todo: []}],
+            };
+        case EDIT_TODO:
+            console.log(action)
+            return {
+                ...state,
+                project: [...state.project.map((proj) => {
+                    if (proj.id === action.idProject) {
+                        return {
+                            ...proj,
+                            todo: proj.todo.map(board => {
+                                if (board.title === action.nameBoard) {
+                                    return {
+                                        ...board,
+                                        todo: board.todo.map(item => {
+                                            if (item.id === action.idTodo) {
+                                                return {
+                                                    ...item,
+                                                    // @ts-ignore
+                                                    ...action.data
+                                                }
+                                            }
+                                            return item
+                                        })
+                                    }
+                                }
+                                return board
+                            })
+                        }
+                    } else return proj
+                })]
             };
 
         case SET_TODO:

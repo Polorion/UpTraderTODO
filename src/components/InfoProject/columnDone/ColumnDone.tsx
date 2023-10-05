@@ -4,6 +4,9 @@ import {doneTransfer} from "../../../utils/doneTransfer";
 import {todoItemType} from "../../../types/todoItemType";
 import {ProjectItemType, ProjectTodo} from "../../../types/ProjectItemType";
 
+import {TodoItem} from "./todoItem/TodoItem";
+
+
 interface IColumnDone {
     board: ProjectTodo
     setCurrentTodoItem: (item: todoItemType) => void
@@ -62,7 +65,9 @@ export const ColumnDone = (props: IColumnDone) => {
     }
 
     const onDropHandlerBorder = (e: React.DragEvent<HTMLDivElement>, board: ProjectTodo) => {
-        board.todo.push(props.currentTodoItem)
+        const newTodo = {...props.currentTodoItem}
+        newTodo.done = board.title
+        board.todo.push(newTodo)
         const currentIndex = props.currentBoard.todo.indexOf(props.currentTodoItem)
         props.currentBoard.todo.splice(currentIndex, 1)
         props.setColumns(props.columns.map((column: any) => {
@@ -106,9 +111,11 @@ export const ColumnDone = (props: IColumnDone) => {
                             }}
                             onDrop={(e) => {
                                 onDropHandler(e, props.board, item)
-                            }}>{item.name}
+                            }}><TodoItem item={item}/>
                 </div>
             })}
         </div>
     );
 };
+
+
