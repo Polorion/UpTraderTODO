@@ -13,6 +13,7 @@ import {
 import {useParams} from "react-router-dom";
 import {MyInput} from "../../../../../UI/Input/MyInput";
 import GeneratorRandomString from "../../../../../utils/generatorRandomString";
+import {MyButton} from "../../../../../UI/button/MyButton";
 
 interface IMiniTodo {
     item: todoItemType
@@ -46,12 +47,16 @@ export const MiniTodo = (props: IMiniTodo) => {
         miniTodo && dispatch(setMiniTodoDone(done, props.item.id, currentProjectId, props.board, id))
     }
     const createMiniTodo = () => {
-        const newMiniTodo = {
-            name: inputRef.current && inputRef.current.value, id: GeneratorRandomString(), done: true
+        if (inputRef.current && inputRef.current.value) {
+
+            const newMiniTodo = {
+                name: inputRef.current.value, id: GeneratorRandomString(), done: true
+            }
+            // @ts-ignore
+            setMiniTodo(prev => [...prev, newMiniTodo])
+            dispatch(createNewMiniTodo(newMiniTodo, props.item.id, currentProjectId, props.board,))
+            inputRef.current.value = ''
         }
-        // @ts-ignore
-        setMiniTodo(prev => [...prev, newMiniTodo])
-        dispatch(createNewMiniTodo(newMiniTodo, props.item.id, currentProjectId, props.board,))
 
     }
     return (
@@ -60,11 +65,16 @@ export const MiniTodo = (props: IMiniTodo) => {
                 return <MiniTodoItem key={el.id} deleteMiniTodo={deleteMiniTodo} item={el} setNameTodo={setNameTodo}
                                      setDoneTodo={setDoneTodo}/>
             })}
-            <button onClick={() => {
+            <div className={S.input}>
+
+                <MyInput placeholder={'введите назвение задачи'} ref={inputRef}/>
+            </div>
+            <MyButton onClick={() => {
                 createMiniTodo()
-            }}>добавить минизадачу
-            </button>
-            <MyInput ref={inputRef}/>
+            }}>
+                добавить минизадачу
+            </MyButton>
+
         </div>
     );
 };
@@ -77,7 +87,6 @@ interface IMiniTodoItem {
 }
 
 export const MiniTodoItem = ({item, setDoneTodo, setNameTodo, deleteMiniTodo}: IMiniTodoItem) => {
-    const dispatch = useDispatch()
 
     const refNameMiniTodo = useRef<HTMLInputElement>()
     useEffect(() => {
@@ -86,7 +95,7 @@ export const MiniTodoItem = ({item, setDoneTodo, setNameTodo, deleteMiniTodo}: I
         }
     }, [])
     return (
-        <div className={S.bodys}>
+        <div className={S.bodyItem}>
             <div className={S.miniTodoBody}>
                 <MyInput onBlur={() => {
                     refNameMiniTodo.current && setNameTodo(refNameMiniTodo.current?.value, item.id)
@@ -94,11 +103,13 @@ export const MiniTodoItem = ({item, setDoneTodo, setNameTodo, deleteMiniTodo}: I
                 }} ref={refNameMiniTodo}/>
                 <div onClick={() => {
                     setDoneTodo(!item.done, item.id)
-                }} className={`${S.done} ${!item.done ? S.green : S.red}`}></div>
-                <div className={S.deleteTodoMini} onClick={() => {
-                    deleteMiniTodo(item.id)
-                }}>x
+                }} className={`${S.done} ${!item.done ? S.green : S.red}`}>
+                    <div>111</div>
                 </div>
+
+                <MyButton onClick={() => {
+                    deleteMiniTodo(item.id)
+                }}>удалить</MyButton>
             </div>
         </div>
     );

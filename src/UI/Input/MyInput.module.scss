@@ -1,7 +1,23 @@
 .input {
   width: 100%;
   padding: 5px 15px;
-  margin: 5px 0;
-  border: 1px solid green;
+  border: 1px solid rgb(0, 0, 0);
   border-radius: 20px;
+  transition: all .6s ease;
+
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.76);
+  }
+
+  &:focus {
+    background-color: rgba(75, 75, 75, 0.55);
+    color: #c7c7c7;
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .input {
+    font-size: 10px;
+    padding: 3px 10px;
+  }
 }

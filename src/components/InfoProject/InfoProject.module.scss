@@ -2,3 +2,42 @@
   display: flex;
 }
 
+.nameProject {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+
+  input {
+    max-width: 200px;
+
+    width: 100%;
+    padding: 5px 15px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 20px;
+    margin-bottom: 10px;
+    transition: all .6s ease;
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.76);
+    }
+
+    &:focus {
+      background-color: rgba(75, 75, 75, 0.55);
+      color: #c7c7c7;
+    }
+
+
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .columnsBody {
+    flex-direction: column;
+
+  }
+}

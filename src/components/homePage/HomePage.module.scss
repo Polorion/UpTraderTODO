@@ -1,0 +1,25 @@
+
+.input {
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+
+  input {
+    margin-bottom: 10px;
+  }
+
+}
+
+.body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.board {
+  display: flex;
+  max-width: 500px;
+  flex-wrap: wrap;
+  justify-content: center;
+}

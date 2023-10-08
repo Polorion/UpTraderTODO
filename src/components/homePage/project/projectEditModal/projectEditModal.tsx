@@ -24,7 +24,8 @@ export const ProjectEditModal = (props: IProjectEditModal) => {
     const updateValue = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
     };
-    const exitEdit = () => {
+    const exitEdit = (e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation()
         props.setIsOpenModal({type: false, name: ''})
     }
     const saveNewName = () => {
@@ -36,7 +37,9 @@ export const ProjectEditModal = (props: IProjectEditModal) => {
     }
 
     return ReactDOM.createPortal(
-        <div onClick={exitEdit} className={S.body}>
+        <div onClick={(e: React.MouseEvent<HTMLElement>) => {
+            exitEdit(e)
+        }} className={S.body}>
             <div onClick={(e) => {
                 e.stopPropagation()
             }} className={S.edit}>

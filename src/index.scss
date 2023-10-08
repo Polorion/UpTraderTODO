@@ -1,9 +1,16 @@
 @import "./scss/vars.scss";
 
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap');
+
 * {
   padding: 0px;
   margin: 0px;
   border: none;
+  font-family: 'Libre Baskerville', serif;
+
+  &:first-letter {
+    text-transform: uppercase;
+  }
 }
 
 input,
@@ -128,3 +135,6 @@ legend {
   display: block;
 }
 
+body {
+  background-color: $beige;
+}

@@ -4,11 +4,12 @@ import {useEffect, useRef} from "react";
 import {useParams} from "react-router-dom";
 import {connect, useDispatch} from "react-redux";
 import GeneratorRandomString from "../../../../utils/generatorRandomString";
-import {addNewTodo, setEditTodo} from "../../../../store/TodoReducer";
+import {addNewTodo, deleteTodoInProject, setEditTodo} from "../../../../store/TodoReducer";
 import {MyInput} from "../../../../UI/Input/MyInput";
 import S from './FormCreate.module.scss'
 import moment from "moment";
 import {todoItemType} from "../../../../types/todoItemType";
+import {MyButton} from "../../../../UI/button/MyButton";
 
 interface IFormCreate {
     item?: todoItemType,
@@ -17,6 +18,7 @@ interface IFormCreate {
     setIsModal: (type: boolean) => void
 }
 
+
 export const FormCreate = (props: IFormCreate) => {
     const refName = useRef<HTMLInputElement>()
     const refDescription = useRef<HTMLInputElement>()
@@ -24,6 +26,10 @@ export const FormCreate = (props: IFormCreate) => {
     const refFile = useRef<HTMLInputElement>()
     const {id: currentProjectId} = useParams()
     const dispatch = useDispatch()
+    const deleteTodo = (e: any) => {
+        e.preventDefault()
+        props.item && dispatch(deleteTodoInProject(props.item.id, currentProjectId))
+    }
     const createTodo = (e: any) => {
         e.preventDefault()
         if (props.create) {
@@ -93,17 +99,25 @@ export const FormCreate = (props: IFormCreate) => {
     return (
         <form className={S.body}>
             {inputFields.map(el => {
-                return <div key={el.name}>
+                return <div className={S.bodyInput} key={el.name}>
                     <p>{el.name}</p>
                     <MyInput type={el.type} ref={el.ref}/>
                 </div>
             })}
+            <MyButton onClick={(e: any) => {
+                e.preventDefault()
+                createTodo(e)
+            }}>
+                {props.create ? 'Созадть задачу' : 'Сохранить'}
+            </MyButton>
+            {!props.create && <MyButton onClick={(e: any) => {
+                e.preventDefault()
+                deleteTodo(e)
+            }}>
+                удалить задачу
+            </MyButton>}
 
 
-            <button onClick={
-                createTodo
-            }>{props.create ? 'созадть задание' : 'сохранить'}
-            </button>
         </form>
     );
 };
@@ -113,7 +127,7 @@ const mapStateToProps = (state: AppStateType) => {
 };
 
 const FormCreateContainer = connect(mapStateToProps, {
-    addNewTodo, setEditTodo
+    addNewTodo, setEditTodo, deleteTodoInProject
 })(FormCreate);
 
 export default FormCreateContainer;

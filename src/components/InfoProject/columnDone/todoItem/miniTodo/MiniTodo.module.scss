@@ -1,14 +1,43 @@
+@import "./src/scss/vars.scss";
+
+.bodyItem {
+
+
+  .miniTodoBody {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    input {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+      max-width: 200px;
+    }
+  }
+}
+
 .body {
-  padding: 10px;
-  min-height: 300px;
-  min-width: 500px;
-  background-color: #fff;
+  padding: 20px;
+  background-color: $beige;
+  border-radius: 20px;
+
+  .input {
+    margin-bottom: 10px;
+  }
 }
 
 .done {
-  height: 20px;
-  border-radius: 100px;
+  height: 20px !important;
+  width: 20px !important;
+  border-radius: 100%;
   transition: all 0.5s ease;
+  margin-right: 30px;
+  cursor: pointer;
+
+  div {
+    opacity: 0;
+  }
 
   &.red {
 
@@ -20,10 +49,26 @@
   }
 }
 
+.deleteTodoMini {
+  cursor: pointer;
+}
+
 .miniTodoBody {
   display: flex;
 
-  div {
-    flex: 0 0 30%
-  }
 }
+
+//
+//@media screen and (max-width: 440px) {
+//  .body {
+//    padding: 20px;
+//
+//
+//  }
+//}
+//
+//@media screen and (max-width: 250px) {
+//  .body {
+//    padding: 10px;
+//  }
+//}

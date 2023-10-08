@@ -3,6 +3,7 @@ import {useState} from 'react';
 import S from './FormCreateTodo.module.scss'
 import {Portal} from "../../../UI/portal/Portal";
 import FormCreateContainer from "./createForm/FormCreate";
+import {MyButton} from '../../../UI/button/MyButton';
 
 
 export const FormCreateTodo = () => {
@@ -12,7 +13,10 @@ export const FormCreateTodo = () => {
     }
     return (
         <div className={S.body}>
-            <button onClick={openModal}>createTodo</button>
+            <MyButton onClick={(e: any) => {
+                e.preventDefault()
+                openModal()
+            }}>Создать задачу</MyButton>
             {isModal && <Portal exitModal={setIsModal}>
                 <FormCreateContainer setIsModal={setIsModal} create={true}/>
             </Portal>

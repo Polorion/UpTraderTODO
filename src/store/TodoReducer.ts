@@ -7,11 +7,13 @@ interface IInitialState {
 }
 
 const SET_PROJECT = "SET_PROJECT";
+const SET_ALL_PROJECTS = "SET_ALL_PROJECTS";
 const EDIT_PROJECT = "EDIT_PROJECT";
 const DELETE_PROJECT = "DELETE_PROJECT";
 const SET_TODO = "SET_TODO";
 const ADD_NEW_TODO = 'ADD_NEW_TODO'
 const EDIT_TODO = 'EDIT_TODO'
+const DELETE_TODO = 'DELETE_TODO'
 const SET_DONE_MINI_TODO = 'SET_DONE_MINI_TODO'
 const CREATE_MINI_TODO = 'CREATE_MINI_TODO'
 const SET_NAME_MINI_TODO = 'SET_NAME_MINI_TODO'
@@ -22,6 +24,19 @@ export const setProject = (name: string) => {
     return {
         type: SET_PROJECT,
         name,
+    };
+};
+export const setAllProjects = (data: string) => {
+    return {
+        type: SET_ALL_PROJECTS,
+        data,
+    };
+};
+export const deleteTodoInProject = (id: string | undefined, projectId: string | undefined) => {
+    return {
+        type: DELETE_TODO,
+        id,
+        projectId
     };
 };
 export const deleteMiniTodoInTodo = (id: string | undefined, projectId: string | undefined, boardName: string, idItem: string) => {
@@ -100,65 +115,7 @@ export const setMiniTodoDone = (done: boolean, id: string | undefined, projectId
 
 
 const initialState: IInitialState = {
-    project: [
-        {
-            name: '11',
-            id: '1',
-            todo: [
-                {
-                    title: 'todoQueue',
-                    id: 1,
-                    todo: [{
-                        name: "fds",
-                        text: "",
-                        timeEnd: '',
-                        refFile: "",
-                        done: "todoQueue",
-                        time: 1696508028,
-                        id: "myxulmuvorp",
-                        miniTodo: [{name: '1221', done: false, id: '123'}, {name: '1221', done: false, id: '1232'}]
-                    },
-                    ]
-                }, {
-                    title: 'todoDevelop',
-                    id: 2,
-                    todo: []
-                }, {
-                    title: 'todoDone',
-                    id: 3,
-                    todo: []
-                }
-            ]
-
-        }, {
-            name: '222',
-            id: '2',
-            todo: [
-                {
-                    title: 'todoQueue',
-                    id: 1,
-                    todo: [{
-                        name: "fds",
-                        text: "",
-                        timeEnd: '',
-                        refFile: "",
-                        done: "todoQueue",
-                        time: 1696508028,
-                        id: "myxulmuvorp",
-                    },
-                    ]
-                }, {
-                    title: 'todoDevelop',
-                    id: 2,
-                    todo: []
-                }, {
-                    title: 'todoDone',
-                    id: 3,
-                    todo: []
-                }
-            ]
-
-        }],
+    project: [],
 
 
 };
@@ -192,7 +149,6 @@ const TodoReducer = (
                 })]
             };
         case DELETE_MINI_TODO:
-            console.log(action)
             return {
                 ...state,
                 project: state.project.map(projects => {
@@ -242,6 +198,26 @@ const TodoReducer = (
                         }
                     ]
                 }],
+            };
+        case DELETE_TODO:
+            return {
+                ...state,
+                project: [...state.project.map(project => {
+                    if (project.id === action.projectId) {
+
+                        return {
+                            ...project,
+                            todo: project.todo.map(board => {
+                                return {
+                                    ...board,
+                                    todo: board.todo.filter(el => el.id !== action.id)
+                                }
+                            })
+                        }
+                    }
+                    return project
+                })]
+
             };
         case EDIT_TODO:
             return {
@@ -345,8 +321,12 @@ const TodoReducer = (
                     }
                 }),
             };
+        case SET_ALL_PROJECTS:
+            return {
+                ...state,
+                project: action.data
+            };
         case SET_NAME_MINI_TODO:
-            console.log(action)
             return {
                 ...state, project: [...state.project.map(projects => {
                     if (projects.id === action.projectId) {

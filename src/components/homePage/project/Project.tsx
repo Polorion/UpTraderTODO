@@ -32,22 +32,24 @@ export const Project = (props: IProject) => {
         <div className={S.body}>
             <Link to={`project/${props.project.id}`}>
                 <div className={S.title}>{props.project.name}</div>
-            </Link>
 
+
+                {isOpenModalEdit.type &&
+                    <ProjectEditModal deleteTodo={deleteTodo} isEdit={isOpenModalEdit.name} project={props.project}
+                                      editProject={props.editProject}
+                                      setIsOpenModal={setIsOpenModalEdit}/>}
+
+            </Link>
             <div className={S.control}>
-                <button onClick={() => {
+                <button onClick={(e) => {
+                    e.stopPropagation()
                     openEdit('1')
                 }} className={S.edit}><Edit/></button>
-                <button onClick={() => {
+                <button onClick={(e) => {
+                    e.stopPropagation()
                     openEdit('2')
                 }} className={S.delete}><Delete/></button>
             </div>
-
-            {isOpenModalEdit.type &&
-                <ProjectEditModal deleteTodo={deleteTodo} isEdit={isOpenModalEdit.name} project={props.project}
-                                  editProject={props.editProject}
-                                  setIsOpenModal={setIsOpenModalEdit}/>}
-
         </div>
     );
 };

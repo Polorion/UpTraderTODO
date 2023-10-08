@@ -17,6 +17,7 @@ interface IColumnDone {
     setColumns: (board: ProjectTodo) => void
     columns: any
     setNewOrderTodo: any
+    searchValue: any
 
 }
 
@@ -24,8 +25,8 @@ interface IColumnDone {
 export const ColumnDone = (props: IColumnDone) => {
     const onDragOverHandler = (e: any) => {
         e.preventDefault()
-        if (e.target.className.indexOf('item') > 0) {
-            e.target.style.boxShadow = ' 0 2px 3px black'
+        if (e.target.closest('#div')) {
+            e.target.closest('#div').style.boxShadow = ' 0 2px 3px black'
         }
     }
 
@@ -81,9 +82,14 @@ export const ColumnDone = (props: IColumnDone) => {
         }))
         props.setNewOrderTodo(props.columns)
     }
-
+    const filter = props.board.todo?.filter((el) =>
+        el.name.toLowerCase().includes(props.searchValue.toLowerCase())
+    );
     return (<div key={props.board.id} className={S.board}
                  draggable={true}
+                 onDragStart={(e) => {
+                     e.stopPropagation()
+                 }}
                  onDragOver={(e) => {
                      onDragOverHandler(e)
                  }}
@@ -93,8 +99,8 @@ export const ColumnDone = (props: IColumnDone) => {
 
         >
             <h2 className={S.boardTitle}>{doneTransfer(props.board.title)}</h2>
-            {props.board.todo.map((item, id) => {
-                return <div className={`${id % 2 ? S.gray : S.black} ${S.item} `}
+            {filter.map((item, id) => {
+                return <div id={'div'} className={`${id % 2 ? S.gray : S.black} ${S.item} `}
                             key={item.id}
                             draggable={true}
                             onDragOver={(e) => {
@@ -116,6 +122,6 @@ export const ColumnDone = (props: IColumnDone) => {
             })}
         </div>
     );
-};
+}
 
 

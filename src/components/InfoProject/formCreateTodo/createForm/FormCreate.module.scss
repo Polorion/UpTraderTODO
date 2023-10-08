@@ -1,4 +1,14 @@
+@import "./src/scss/vars";
+
 .body {
   padding: 50px;
-  background-color: #fff;
+  background-color: $beige;
+  border-radius: 20px;
+  -webkit-box-shadow: -5px 5px 8px 0px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: -5px 5px 8px 0px rgba(34, 60, 80, 0.2);
+  box-shadow: -5px 5px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+.bodyInput {
+  margin-bottom: 5px;
 }

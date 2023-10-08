@@ -1,40 +1,52 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useEffect, useRef} from 'react';
 import S from './HomePage.module.scss'
 import {connect, useDispatch} from "react-redux";
 import {AppStateType} from "../../store/Store";
 import {deleteProject, editProject, setProject} from "../../store/TodoReducer";
 import {ProjectItemType} from "../../types/ProjectItemType";
 import {Project} from "./project/Project";
+import {MyInput} from "../../UI/Input/MyInput";
+import {MyButton} from "../../UI/button/MyButton";
 
 
 const HomePage: React.FC = (props: AppStateType) => {
     const dispatch = useDispatch()
-    const [inputValue, setInputValue] = useState('')
-    const updateValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
-    };
-    const createProject = (e: React.MouseEvent<HTMLElement>) => {
-        e.preventDefault()
-        setInputValue('')
-        dispatch(setProject(inputValue))
+    useEffect(() => {
+        localStorage.setItem('project', JSON.stringify(props.projects))
+
+    }, [props.projects])
+
+    const createProject = () => {
+        if (inputRef.current && inputRef.current.value.length > 0) {
+            dispatch(setProject(inputRef.current.value))
+            inputRef.current.value = ''
+        }
     }
     const editProjects = (text: string, id: string) => {
         dispatch(editProject(text, id))
     }
     const deleteTodo = (id: string) => {
         dispatch(deleteProject(id))
+
     }
+    const inputRef = useRef<HTMLInputElement>()
 
     return (
         <div className={S.body}>
             <form className={S.find}>
-                <input type="text" value={inputValue} onChange={updateValue}/>
-                <button onClick={createProject}>создать задачу
-                </button>
+                <div className={S.input}>
+                    <MyInput placeholder={'введите имя проекта'} ref={inputRef}/>
+                    <MyButton onClick={(e: any) => {
+                        e.preventDefault()
+                        createProject()
+                    }}>
+                        создать проект
+                    </MyButton>
+                </div>
             </form>
 
-            <div>
+            <div className={S.board}>
                 {props.projects.map((el: ProjectItemType) => {
                     return <Project key={el.id} project={el} deleteTodo={deleteTodo}
                                     editProject={editProjects}/>
