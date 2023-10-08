@@ -4,7 +4,7 @@ import S from './InfoProject.module.scss'
 import {AppStateType} from "../../store/Store";
 import {connect, useDispatch} from "react-redux";
 import {setTodo} from "../../store/TodoReducer";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {ProjectItemType, ProjectTodo} from "../../types/ProjectItemType";
 import {ColumnDone} from "./columnDone/ColumnDone";
 import {todoItemType} from "../../types/todoItemType";
@@ -33,6 +33,11 @@ const InfoProject: React.FC = (props: AppStateType) => {
 
     return (
         <div className={S.body}>
+            <div className={S.linkToHome}>
+
+                <Link to={'/'}>вернуться к проектам</Link>
+            </div>
+
             <h2 className={S.nameProject}> Проект: {currentTodo.name}</h2>
             <div className={S.search}>
                 <input placeholder={'поиск по задачам'} onInput={(e: any) => {
